@@ -14,19 +14,19 @@
 </div>
 {{ wtf.quick_form(form) }}
 
-<h2>Relação de usuários cadastrados</h2>
+<h2>Relação de professores cadastrados</h2>
 <table class="table">
     <thead>
         <tr>
             <th>Nome do usuário</th>
-            <th>Função</th>
+            <th>Disciplina</th>
         </tr>
     </thead>
     <tbody>
         {% for key in user_all %}
         <tr>
             <td>{{ key.username }}</td>
-            <td>{{ key.role.name }}</td>            
+            <td>{{ key.disciplina.name }}</td>            
         </tr>
         {% endfor %}
     </tbody>
