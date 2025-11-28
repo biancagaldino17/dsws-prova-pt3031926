@@ -41,10 +41,19 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
-
 class NameForm(FlaskForm):
     name = StringField('Cadastre o novo professor', validators=[DataRequired()])
-    role: SelectField(u'Disciplina associada:', choices=[('DSWA5'),('GPSA5'),('IHCA5'), ('SODA5'), ('PIJA5'), ('TCOA5')])
+    role = SelectField(
+        'Disciplina associada:',
+        choices=[
+            ('DSWA5', 'DSWA5'),
+            ('GPSA5', 'GPSA5'),
+            ('IHCA5', 'IHCA5'),
+            ('SODA5', 'SODA5'),
+            ('PIJA5', 'PIJA5'),
+            ('TCOA5', 'TCOA5'),
+        ]
+    )
     submit = SubmitField('Submit')
 
 
@@ -71,12 +80,9 @@ def cadastrodedisciplinas():
 def cadastrodealunos():
     return render_template('cadastrodealunos', current_time=datetime.utcnow())
  
-
 @app.route('/Cadastro de Cursos')
 def cadastrodecursos():
-    from datetime import datetime
-   return render_template('cadastrodecursos', current_time=datetime.utcnow())
-
+    return render_template('cadastrodecursos.html', current_time=datetime.utcnow())
 
 @app.route('/Cadastro de Ocorrencias')
 def cadastrodeocorrencias():
@@ -87,26 +93,31 @@ def cadastrodeocorrencias():
 def avaliaçaosemestral():
      return render_template('avaliacaosemestral', current_time=datetime.utcnow())
 
-
 @app.route('/Cadastro de professores', methods=['GET', 'POST'])
 def index():
-     form = NameForm()
-    user_all = User.query.all();
-    role_all = Role.query.all();
-    print(user_all);
+    form = NameForm()
+    user_all = User.query.all()
+    role_all = Role.query.all()
+
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.name.data).first()                
+        user = User.query.filter_by(username=form.name.data).first()
+        
         if user is None:
-            user_role = Role.query.filter_by(name=form.name.data).first();
-            user = User(username=form.name.data, role=user_role);
+            user_role = Role.query.filter_by(name=form.role.data).first()
+            user = User(username=form.name.data, role=user_role)
             db.session.add(user)
             db.session.commit()
             session['known'] = False
         else:
             session['known'] = True
+
         session['name'] = form.name.data
         return redirect(url_for('index'))
-    return render_template('index.html', form=form, name=session.get('name'),
-                           known=session.get('known', False),
-                           user_all=user_all);
 
+    return render_template(
+        'index.html',
+        form=form,
+        name=session.get('name'),
+        known=session.get('known', False),
+        user_all=user_all
+    )
