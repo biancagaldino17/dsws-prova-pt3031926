@@ -85,7 +85,7 @@ def cadastrodeocorrencias():
 
 @app.route('/Avaliação Semestral')
 def avaliaçaosemestral():
-     return '<h1>Avaliação Semestral</h1><h2>Aluna: Bianca Galdino</h2><h3>Prontuário: PT3031926</h3>'(current_time=datetime.utcnow)
+     return render_template('avaliacaosemestral', current_time=datetime.utcnow())
 
 
 @app.route('/Cadastro de professores', methods=['GET', 'POST'])
