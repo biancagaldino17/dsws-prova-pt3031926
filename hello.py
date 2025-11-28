@@ -65,21 +65,22 @@ def internal_server_error(e):
 
 @app.route('/Cadastro de disciplinas')
 def cadastrodedisciplinas():
-    return '<h1>Não disponível<h1>'(current_time=datetime.utcnow)
+    return render_template('cadastrodedisciplinas', current_time=datetime.utcnow())
 
 @app.route('/Cadastro de Alunos')
 def cadastrodealunos():
-    return '<h1>Não disponível<h1>'(current_time=datetime.utcnow)
-
+    return render_template('cadastrodealunos', current_time=datetime.utcnow())
+ 
 
 @app.route('/Cadastro de Cursos')
 def cadastrodecursos():
-    return '<h1>Não disponível<h1>'(current_time=datetime.utcnow)
+    from datetime import datetime
+   return render_template('cadastrodecursos', current_time=datetime.utcnow())
 
 
 @app.route('/Cadastro de Ocorrencias')
 def cadastrodeocorrencias():
-    return '<h1>Não disponível<h1>'(current_time=datetime.utcnow)
+    return render_template('cadastrodeocorrencias', current_time=datetime.utcnow())
 
 
 @app.route('/Avaliação Semestral')
