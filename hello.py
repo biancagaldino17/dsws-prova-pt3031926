@@ -21,6 +21,7 @@ moment = Moment(app)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+from datetime import datetime
 
 class Role(db.Model):
     __tablename__ = 'roles'
