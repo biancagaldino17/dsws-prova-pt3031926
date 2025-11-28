@@ -89,7 +89,7 @@ def avaliaçaosemestral():
 
 
 @app.route('/Cadastro de professores', methods=['GET', 'POST'])
-def cadastrodeprofessores():
+def index():
      form = NameForm()
     user_all = User.query.all();
     role_all = Role.query.all();
