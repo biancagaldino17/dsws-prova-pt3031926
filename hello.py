@@ -30,8 +30,7 @@ class Role(db.Model):
 
     def __repr__(self):
         return '<Role %r>' % self.name
-
-
+    
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -43,7 +42,8 @@ class User(db.Model):
 
 
 class NameForm(FlaskForm):
-    name = StringField('What is your name?', validators=[DataRequired()])
+    name = StringField('Cadastre o novo professor', validators=[DataRequired()])
+    role: SelectField(u'Disciplina associada:', choices=[('DSWA5'),('GPSA5'),('IHCA5'), ('SODA5'), ('PIJA5'), ('TCOA5')])
     submit = SubmitField('Submit')
 
 
@@ -62,15 +62,40 @@ def internal_server_error(e):
     return render_template('500.html'), 500
 
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    form = NameForm()
+@app.route('/Cadastro de disciplinas')
+def cadastrodedisciplinas():
+    return '<h1>Não disponível<h1>'(current_time=datetime.utcnow)
+
+@app.route('/Cadastro de Alunos')
+def cadastrodealunos():
+    return '<h1>Não disponível<h1>'(current_time=datetime.utcnow)
+
+
+@app.route('/Cadastro de Cursos')
+def cadastrodecursos():
+    return '<h1>Não disponível<h1>'(current_time=datetime.utcnow)
+
+
+@app.route('/Cadastro de Ocorrencias')
+def cadastrodeocorrencias():
+    return '<h1>Não disponível<h1>'(current_time=datetime.utcnow)
+
+
+@app.route('/Avaliação Semestral')
+def avaliaçaosemestral():
+     return '<h1>Avaliação Semestral</h1><h2>Aluna: Bianca Galdino</h2><h3>Prontuário: PT3031926</h3>'(current_time=datetime.utcnow)
+
+
+@app.route('/Cadastro de professores', methods=['GET', 'POST'])
+def cadastrodeprofessores():
+     form = NameForm()
     user_all = User.query.all();
+    role_all = Role.query.all();
     print(user_all);
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.name.data).first()                
         if user is None:
-            user_role = Role.query.filter_by(name='User').first();
+            user_role = Role.query.filter_by(name=form.name.data).first();
             user = User(username=form.name.data, role=user_role);
             db.session.add(user)
             db.session.commit()
@@ -82,3 +107,4 @@ def index():
     return render_template('index.html', form=form, name=session.get('name'),
                            known=session.get('known', False),
                            user_all=user_all);
+
